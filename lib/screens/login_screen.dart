@@ -37,12 +37,8 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _submitForm() {
-    if (_formKey.currentState!.validate()) {
-      // Process data
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Processing Data')),
-      );
-    }
+    _formKey.currentState!.validate(); // Still show validation messages
+    Navigator.pushReplacementNamed(context, '/dashboard');
   }
 
   @override

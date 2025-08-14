@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:qr_payment/screens/dashboard_screen.dart';
 import 'package:qr_payment/screens/login_screen.dart';
 import 'package:qr_payment/screens/registration_screen.dart';
 import 'package:qr_payment/screens/welcome_screen.dart';
+import 'package:qr_payment/screens/qr_scanner_screen.dart';
+import 'package:qr_payment/screens/transaction_details_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -23,6 +26,9 @@ class MyApp extends StatelessWidget {
         '/': (context) => const WelcomeScreen(),
         '/login': (context) => const LoginScreen(),
         '/register': (context) => const RegistrationScreen(),
+        '/dashboard': (context) => const DashboardScreen(),
+        '/qr_scanner': (context) => const QrScannerScreen(),
+        '/transaction_details': (context) => const TransactionDetailsScreen(),
       },
     );
   }

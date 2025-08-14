@@ -74,10 +74,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
   void _submitForm() {
     if (_formKey.currentState!.validate()) {
-      // Process data
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Processing Data')),
-      );
+      Navigator.pushReplacementNamed(context, '/dashboard');
     }
   }
 
