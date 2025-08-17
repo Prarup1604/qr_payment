@@ -152,6 +152,66 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       ],
                     ),
                   ),
+                  ElevatedButton(
+                    onPressed: () {
+                      // Handle Bank Transfer
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.white,
+                      foregroundColor: Colors.black,
+                      padding: const EdgeInsets.all(10),
+                      textStyle: const TextStyle(fontSize: 14),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                    ),
+                    child: const Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(Icons.account_balance, size: 40),
+                        SizedBox(height: 8),
+                        Text('Bank Transfer', textAlign: TextAlign.center),
+                      ],
+                    ),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      // Handle Send Money
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.white,
+                      foregroundColor: Colors.black,
+                      padding: const EdgeInsets.all(10),
+                      textStyle: const TextStyle(fontSize: 14),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                    ),
+                    child: const Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(Icons.send, size: 40),
+                        SizedBox(height: 8),
+                        Text('Send Money', textAlign: TextAlign.center),
+                      ],
+                    ),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      // Handle Request Payment
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.white,
+                      foregroundColor: Colors.black,
+                      padding: const EdgeInsets.all(10),
+                      textStyle: const TextStyle(fontSize: 14),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                    ),
+                    child: const Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(Icons.request_quote, size: 40),
+                        SizedBox(height: 8),
+                        Text('Request Payment', textAlign: TextAlign.center),
+                      ],
+                    ),
+                  ),
                   ],
               ),
               const SizedBox(height: 20.0),
@@ -227,68 +287,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       ],
                     ),
                   ),
-                  ElevatedButton(
-                    onPressed: () {
-                      // Handle Bank Transfer
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.white,
-                      foregroundColor: Colors.black,
-                      padding: const EdgeInsets.all(10),
-                      textStyle: const TextStyle(fontSize: 14),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                    ),
-                    child: const Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(Icons.account_balance, size: 40),
-                        SizedBox(height: 8),
-                        Text('Bank Transfer', textAlign: TextAlign.center),
-                      ],
-                    ),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      // Handle Send Money
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.white,
-                      foregroundColor: Colors.black,
-                      padding: const EdgeInsets.all(10),
-                      textStyle: const TextStyle(fontSize: 14),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                    ),
-                    child: const Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(Icons.send, size: 40),
-                        SizedBox(height: 8),
-                        Text('Send Money', textAlign: TextAlign.center),
-                      ],
-                    ),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      // Handle Request Payment
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.white,
-                      foregroundColor: Colors.black,
-                      padding: const EdgeInsets.all(10),
-                      textStyle: const TextStyle(fontSize: 14),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                    ),
-                    child: const Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(Icons.request_quote, size: 40),
-                        SizedBox(height: 8),
-                        Text('Request Payment', textAlign: TextAlign.center),
-                      ],
-                    ),
-                  ),
                 ],
               ),
+              
             ],
           ),
         ),
