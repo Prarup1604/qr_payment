@@ -5,6 +5,7 @@ import 'package:qr_payment/screens/registration_screen.dart';
 import 'package:qr_payment/screens/welcome_screen.dart';
 import 'package:qr_payment/screens/qr_scanner_screen.dart';
 import 'package:qr_payment/screens/transaction_details_screen.dart';
+import 'package:qr_payment/screens/profile_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -29,6 +30,7 @@ class MyApp extends StatelessWidget {
         '/dashboard': (context) => const DashboardScreen(),
         '/qr_scanner': (context) => const QrScannerScreen(),
         '/transaction_details': (context) => const TransactionDetailsScreen(),
+        '/profile': (context) => ProfileScreen(),
       },
     );
   }

@@ -10,9 +10,9 @@ flutter {
 }
 
 android {
-    namespace = "com.example.qr_payment"
+ namespace = "com.example.qr_payment"
     compileSdk = flutter.compileSdkVersion
-    ndkVersion = flutter.ndkVersion
+      ndkVersion = "27.0.12077973"
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8

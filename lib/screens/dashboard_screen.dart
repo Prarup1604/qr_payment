@@ -14,6 +14,18 @@ class _DashboardScreenState extends State<DashboardScreen> {
     setState(() {
       _selectedIndex = index;
     });
+
+    switch (index) {
+      case 0:
+        // Handle Home navigation
+        break;
+      case 1:
+        Navigator.pushNamed(context, '/profile');
+        break;
+      case 2:
+        // Handle Transactions navigation
+        break;
+    }
   }
 
   @override
@@ -50,7 +62,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               IconButton(
                 icon: const Icon(Icons.account_circle),
                 onPressed: () {
-                  // Handle profile view
+                  Navigator.pushNamed(context, '/profile');
                 },
               ),
             ],
