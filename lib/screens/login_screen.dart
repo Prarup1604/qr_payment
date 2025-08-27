@@ -120,6 +120,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           controller: _usernameController,
                           decoration: InputDecoration(
                             labelText: 'Username',
+                            prefixIcon: Icon(Icons.person), // Added icon
                             filled: true,
                             fillColor: Colors.white,
                             border: OutlineInputBorder(
@@ -133,6 +134,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           controller: _passwordController,
                           decoration: InputDecoration(
                             labelText: 'Password',
+                            prefixIcon: Icon(Icons.lock), // Added icon
                             filled: true,
                             fillColor: Colors.white,
                             border: OutlineInputBorder(

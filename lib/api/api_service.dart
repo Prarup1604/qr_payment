@@ -4,17 +4,18 @@ import 'package:http/http.dart' as http;
 class ApiService {
   static const String _baseUrl = 'http://192.168.0.133:3000/api'; // Replace with your backend URL
 
-  static Future<Map<String, dynamic>> register(String username, String name, String email, String password) async {
+  static Future<Map<String, dynamic>> register(String name, String username, String email, String password, String address) async {
     final response = await http.post(
       Uri.parse('$_baseUrl/users/register'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(<String, String>{
-        'username': username,
         'name': name,
+        'username': username,
         'email': email,
         'password': password,
+        'address': address,
       }),
     );
 

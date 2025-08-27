@@ -15,6 +15,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   final _passwordController = TextEditingController();
   final _fullnameController = TextEditingController();
   final _phonenumberController = TextEditingController();
+  final _addressController = TextEditingController(); // Added
+  final _confirmPasswordController = TextEditingController(); // Added
   bool _isLoading = false;
   bool _isPasswordVisible = false;
 
@@ -25,6 +27,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     _passwordController.dispose();
     _fullnameController.dispose();
     _phonenumberController.dispose();
+    _addressController.dispose(); // Added
+    _confirmPasswordController.dispose(); // Added
     super.dispose();
   }
 
@@ -75,6 +79,23 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     return null;
   }
 
+  String? _validateAddress(String? value) { // Added
+    if (value == null || value.isEmpty) {
+      return 'Please enter your address';
+    }
+    return null;
+  }
+
+  String? _validateConfirmPassword(String? value) { // Added
+    if (value == null || value.isEmpty) {
+      return 'Please confirm your password';
+    }
+    if (value != _passwordController.text) {
+      return 'Passwords do not match';
+    }
+    return null;
+  }
+
   void _submitForm() async {
     if (_formKey.currentState!.validate()) {
       setState(() {
@@ -83,10 +104,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
       try {
         final result = await ApiService.register(
-          _usernameController.text,
           _fullnameController.text,
+          _usernameController.text,
           _emailController.text,
           _passwordController.text,
+          _addressController.text,
         );
 
         if (mounted) {
@@ -165,11 +187,36 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   Form(
                     key: _formKey,
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        const Text(
+                          'Account Information',
+                          style: TextStyle(
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.bold,
+                            color: primaryColor,
+                          ),
+                        ),
+                        const SizedBox(height: 16.0),
+                        TextFormField(
+                          controller: _fullnameController,
+                          decoration: InputDecoration(
+                            labelText: 'Full Name',
+                            prefixIcon: Icon(Icons.person_outline),
+                            filled: true,
+                            fillColor: Colors.white,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8.0),
+                            ),
+                          ),
+                          validator: _validateFullname,
+                        ),
+                        const SizedBox(height: 16.0),
                         TextFormField(
                           controller: _usernameController,
                           decoration: InputDecoration(
                             labelText: 'Username',
+                            prefixIcon: Icon(Icons.person),
                             filled: true,
                             fillColor: Colors.white,
                             border: OutlineInputBorder(
@@ -183,6 +230,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           controller: _emailController,
                           decoration: InputDecoration(
                             labelText: 'Email',
+                            prefixIcon: Icon(Icons.email),
                             filled: true,
                             fillColor: Colors.white,
                             border: OutlineInputBorder(
@@ -193,9 +241,48 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         ),
                         const SizedBox(height: 16.0),
                         TextFormField(
+                          controller: _phonenumberController,
+                          decoration: InputDecoration(
+                            labelText: 'Phone Number',
+                            prefixIcon: Icon(Icons.phone),
+                            filled: true,
+                            fillColor: Colors.white,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8.0),
+                            ),
+                          ),
+                          keyboardType: TextInputType.phone,
+                          validator: _validatePhonenumber,
+                        ),
+                        const SizedBox(height: 16.0),
+                        TextFormField(
+                          controller: _addressController,
+                          decoration: InputDecoration(
+                            labelText: 'Address',
+                            prefixIcon: Icon(Icons.home), // Added icon for address
+                            filled: true,
+                            fillColor: Colors.white,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8.0),
+                            ),
+                          ),
+                          validator: _validateAddress,
+                        ),
+                        const SizedBox(height: 32.0),
+                        const Text(
+                          'Password',
+                          style: TextStyle(
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.bold,
+                            color: primaryColor,
+                          ),
+                        ),
+                        const SizedBox(height: 16.0),
+                        TextFormField(
                           controller: _passwordController,
                           decoration: InputDecoration(
-                            labelText: 'Password',
+                            labelText: 'New Password',
+                            prefixIcon: Icon(Icons.lock), // Added icon
                             filled: true,
                             fillColor: Colors.white,
                             border: OutlineInputBorder(
@@ -220,30 +307,31 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         ),
                         const SizedBox(height: 16.0),
                         TextFormField(
-                          controller: _fullnameController,
+                          controller: _confirmPasswordController,
                           decoration: InputDecoration(
-                            labelText: 'Full Name',
+                            labelText: 'Confirm Password',
+                            prefixIcon: Icon(Icons.lock_reset), // Added icon
                             filled: true,
                             fillColor: Colors.white,
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8.0),
                             ),
-                          ),
-                          validator: _validateFullname,
-                        ),
-                        const SizedBox(height: 16.0),
-                        TextFormField(
-                          controller: _phonenumberController,
-                          decoration: InputDecoration(
-                            labelText: 'Phone Number',
-                            filled: true,
-                            fillColor: Colors.white,
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8.0),
+                            suffixIcon: IconButton(
+                              icon: Icon(
+                                _isPasswordVisible
+                                    ? Icons.visibility
+                                    : Icons.visibility_off,
+                                color: primaryColor,
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  _isPasswordVisible = !_isPasswordVisible;
+                                });
+                              },
                             ),
                           ),
-                          keyboardType: TextInputType.phone,
-                          validator: _validatePhonenumber,
+                          obscureText: !_isPasswordVisible,
+                          validator: _validateConfirmPassword,
                         ),
                         const SizedBox(height: 24.0),
                         _isLoading

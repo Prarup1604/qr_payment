@@ -20,7 +20,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         // Handle Home navigation
         break;
       case 1:
-        Navigator.pushNamed(context, '/profile');
+        // No navigation for My Payment as per user request
         break;
       case 2:
         // Handle Transactions navigation
@@ -31,7 +31,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.lightGreen, // Changed background color to light green
+      backgroundColor: const Color.fromARGB(237, 255, 255, 255), // Changed background color to light green
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(kToolbarHeight), // Default AppBar height
         child: Container(
@@ -43,9 +43,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
             ),
           ),
           child: AppBar(
-            backgroundColor: Colors.transparent, // Make AppBar transparent to show gradient
+            backgroundColor: Colors.green, // Make AppBar transparent to show gradient
             elevation: 0, // Remove shadow
-            title: const Text('Homepage'),
+            title: const Text('WalletPay'),
+            toolbarTextStyle: TextStyle(),
             actions: [
               IconButton(
                 icon: const Icon(Icons.search),
@@ -85,11 +86,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     children: [
                       const Text(
                         'Wallet Balance:',
-                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                       ),
                       Text(
-                        '£1,234.56',
-                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Theme.of(context).primaryColor),
+                        '£2000.6',
+                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Theme.of(context).primaryColor),
                       ),
                     ],
                   ),
@@ -110,20 +111,20 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.white,
                       foregroundColor: Colors.black,
-                      padding: const EdgeInsets.all(10),
+                      padding: const EdgeInsets.all(4),
                       textStyle: const TextStyle(fontSize: 14),
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                     ),
                     child: const Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Icon(Icons.account_balance_wallet, size: 40),
+                        Icon(Icons.account_balance_wallet, size: 40, color: Colors.green),
                         SizedBox(height: 8),
                         Text('Load Money', textAlign: TextAlign.center),
                       ],
                     ),
                   ),
-                  // Row 2: Scan QR, Generate Dynamic QR, Request Payment
+                  // Row 2: Scan QR, Generate Static QR, Request Payment
                   ElevatedButton(
                     onPressed: () {
                       Navigator.pushNamed(context, '/qr_scanner');
@@ -131,14 +132,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.white,
                       foregroundColor: Colors.black,
-                      padding: const EdgeInsets.all(10),
+                      padding: const EdgeInsets.all(8),
                       textStyle: const TextStyle(fontSize: 14),
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                     ),
                     child: const Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Icon(Icons.qr_code_scanner, size: 40),
+                        Icon(Icons.qr_code_scanner, size: 40, color: Colors.green),
                         SizedBox(height: 8),
                         Text('Scan QR', textAlign: TextAlign.center),
                       ],
@@ -146,21 +147,21 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      // Handle Generate Dynamic QR
+                      Navigator.pushNamed(context, '/receive_payment');
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.white,
                       foregroundColor: Colors.black,
-                      padding: const EdgeInsets.all(10),
+                      padding: const EdgeInsets.all(8),
                       textStyle: const TextStyle(fontSize: 14),
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                     ),
                     child: const Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Icon(Icons.qr_code, size: 40),
+                        Icon(Icons.qr_code, size: 40, color: Colors.green),
                         SizedBox(height: 8),
-                        Text('Generate Dynamic QR', textAlign: TextAlign.center),
+                        Text('Generate Static QR', textAlign: TextAlign.center),
                       ],
                     ),
                   ),
@@ -171,59 +172,20 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.white,
                       foregroundColor: Colors.black,
-                      padding: const EdgeInsets.all(10),
+                      padding: const EdgeInsets.all(8),
                       textStyle: const TextStyle(fontSize: 14),
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                     ),
                     child: const Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Icon(Icons.account_balance, size: 40),
+                        Icon(Icons.account_balance, size: 40, color: Colors.green),
                         SizedBox(height: 8),
                         Text('Bank Transfer', textAlign: TextAlign.center),
                       ],
                     ),
                   ),
-                  ElevatedButton(
-                    onPressed: () {
-                      // Handle Send Money
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.white,
-                      foregroundColor: Colors.black,
-                      padding: const EdgeInsets.all(10),
-                      textStyle: const TextStyle(fontSize: 14),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                    ),
-                    child: const Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(Icons.send, size: 40),
-                        SizedBox(height: 8),
-                        Text('Send Money', textAlign: TextAlign.center),
-                      ],
-                    ),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      // Handle Request Payment
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.white,
-                      foregroundColor: Colors.black,
-                      padding: const EdgeInsets.all(10),
-                      textStyle: const TextStyle(fontSize: 14),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                    ),
-                    child: const Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(Icons.request_quote, size: 40),
-                        SizedBox(height: 8),
-                        Text('Request Payment', textAlign: TextAlign.center),
-                      ],
-                    ),
-                  ),
+                  
                   ],
               ),
               const SizedBox(height: 20.0),
@@ -246,14 +208,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.white,
                       foregroundColor: Colors.black,
-                      padding: const EdgeInsets.all(10),
+                      padding: const EdgeInsets.all(8),
                       textStyle: const TextStyle(fontSize: 14),
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                     ),
                     child: const Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Icon(Icons.directions_bus, size: 40),
+                        Icon(Icons.directions_bus, size: 40, color: Colors.green),
                         SizedBox(height: 8),
                         Text('Bus Ticket', textAlign: TextAlign.center),
                       ],
@@ -266,14 +228,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.white,
                       foregroundColor: Colors.black,
-                      padding: const EdgeInsets.all(10),
+                      padding: const EdgeInsets.all(8),
                       textStyle: const TextStyle(fontSize: 14),
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                     ),
                     child: const Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Icon(Icons.train, size: 40),
+                        Icon(Icons.train, size: 40, color: Colors.green),
                         SizedBox(height: 8),
                         Text('National Railway', textAlign: TextAlign.center),
                       ],
@@ -286,16 +248,116 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.white,
                       foregroundColor: Colors.black,
-                      padding: const EdgeInsets.all(10),
+                      padding: const EdgeInsets.all(8),
                       textStyle: const TextStyle(fontSize: 14),
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                     ),
                     child: const Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Icon(Icons.flight, size: 40),
+                        Icon(Icons.flight, size:40,color: Colors.green),
                         SizedBox(height: 8),
                         Text('Airplane Ticket', textAlign: TextAlign.center),
+                      ],
+                    ),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      // Handle Water Bill
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.white,
+                      foregroundColor: Colors.black,
+                      padding: const EdgeInsets.all(8),
+                      textStyle: const TextStyle(fontSize: 14),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                    ),
+                    child: const Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(Icons.water_drop, size: 40, color: Colors.green),
+                        SizedBox(height: 8),
+                        Text('Water Bill', textAlign: TextAlign.center),
+                      ],
+                    ),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      // Handle Electricity Bill
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.white,
+                      foregroundColor: Colors.black,
+                      padding: const EdgeInsets.all(8),
+                      textStyle: const TextStyle(fontSize: 14),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                    ),
+                    child: const Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(Icons.lightbulb, size: 40, color: Colors.green),
+                        SizedBox(height: 8),
+                        Text('Electricity Bill', textAlign: TextAlign.center),
+                      ],
+                    ),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      // Handle Internet Bill
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.white,
+                      foregroundColor: Colors.black,
+                      padding: const EdgeInsets.all(8),
+                      textStyle: const TextStyle(fontSize: 14),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                    ),
+                    child: const Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(Icons.wifi, size: 40, color: Colors.green),
+                        SizedBox(height: 8),
+                        Text('Internet Bill', textAlign: TextAlign.center),
+                      ],
+                    ),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      // Handle Send Money
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.white,
+                      foregroundColor: Colors.black,
+                      padding: const EdgeInsets.all(8),
+                      textStyle: const TextStyle(fontSize: 14),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                    ),
+                    child: const Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(Icons.send, size: 40, color: Colors.green),
+                        SizedBox(height: 8),
+                        Text('Send Money', textAlign: TextAlign.center),
+                      ],
+                    ),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      // Handle Request Payment
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.white,
+                      foregroundColor: Colors.black,
+                      padding: const EdgeInsets.all(8),
+                      textStyle: const TextStyle(fontSize: 14),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                    ),
+                    child: const Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(Icons.request_quote, size: 40, color: Colors.green),
+                        SizedBox(height: 8),
+                        Text('Request Payment', textAlign: TextAlign.center),
                       ],
                     ),
                   ),
@@ -306,15 +368,23 @@ class _DashboardScreenState extends State<DashboardScreen> {
           ),
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // Handle FAB press
+          print('Floating Action Button pressed!');
+        },
+        child: const Icon(Icons.add),
+      ),
       bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.shifting,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
+            icon: Icon(Icons.payment),
+            label: 'My Payment',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.receipt_long),
@@ -323,7 +393,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         ],
         currentIndex: _selectedIndex,
         selectedItemColor: Theme.of(context).primaryColor,
-        unselectedItemColor: Colors.grey,
+        unselectedItemColor: Colors.black,
         onTap: _onItemTapped,
       ),
     );
