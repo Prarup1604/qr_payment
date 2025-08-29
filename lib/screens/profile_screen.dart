@@ -13,13 +13,36 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   final _formKey = GlobalKey<FormState>();
-  final _nameController = TextEditingController(text: 'John Doe'); // Placeholder
-  final _emailController = TextEditingController(text: 'john.doe@example.com'); // Placeholder
-  final _phoneController = TextEditingController(text: '+1234567890'); // Placeholder
-  final _addressController = TextEditingController(text: '123 Main St, Anytown, USA'); // Placeholder
+  final _nameController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _phoneController = TextEditingController();
+  final _addressController = TextEditingController();
+
+  String _originalName = '';
+  String _originalEmail = '';
+  String _originalPhone = '';
+  String _originalAddress = '';
 
   bool _isEditing = false;
   File? _image;
+
+  @override
+  void initState() {
+    super.initState();
+    final user = ApiService.getLoggedInUser();
+    print('User data in ProfileScreen initState: $user'); // Debug print
+    if (user != null) {
+      _originalName = user['name'];
+      _originalEmail = user['email'];
+      _originalPhone = user['phone'] ?? '';
+      _originalAddress = user['address'] ?? '';
+
+      _nameController.text = _originalName;
+      _emailController.text = _originalEmail;
+      _phoneController.text = _originalPhone;
+      _addressController.text = _originalAddress;
+    }
+  }
 
   Future<void> _pickImage() async {
     final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
@@ -34,17 +57,83 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void _toggleEdit() {
     setState(() {
       _isEditing = !_isEditing;
+      if (!_isEditing) {
+        _nameController.text = _originalName;
+        _emailController.text = _originalEmail;
+        _phoneController.text = _originalPhone;
+        _addressController.text = _originalAddress;
+      }
+    });
+  }
+
+  void _cancelEdit() {
+    setState(() {
+      _isEditing = false;
+      _nameController.text = _originalName;
+      _emailController.text = _originalEmail;
+      _phoneController.text = _originalPhone;
+      _addressController.text = _originalAddress;
     });
   }
 
   void _saveProfile() async {
     if (_formKey.currentState!.validate()) {
-      // TODO: Call API to save profile data
-      // For now, just exit edit mode
-      _toggleEdit();
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Profile saved successfully!')),
+      setState(() {
+        _isEditing = false;
+      });
+
+      // Show a loading indicator
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        },
       );
+
+      try {
+        // In a real app, you would get the userId from your auth service
+        const userId = "1"; 
+        final result = await ApiService.updateUser(
+          userId,
+          _nameController.text,
+          _emailController.text,
+          _phoneController.text,
+          _addressController.text,
+        );
+
+        if (mounted) {
+          Navigator.of(context).pop(); // Hide loading indicator
+          Navigator.of(context).pop(_image?.path);
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(result['message'] ?? 'Profile updated successfully!')),
+          );
+          setState(() {
+            _originalName = _nameController.text;
+            _originalEmail = _emailController.text;
+            _originalPhone = _phoneController.text;
+            _originalAddress = _addressController.text;
+
+            // Update the loggedInUser in ApiService
+            ApiService.loggedInUser?['name'] = _originalName;
+            ApiService.loggedInUser?['email'] = _originalEmail;
+            ApiService.loggedInUser?['phone'] = _originalPhone;
+            ApiService.loggedInUser?['address'] = _originalAddress;
+          });
+        }
+      } catch (e) {
+        if (mounted) {
+          Navigator.of(context).pop(); // Hide loading indicator
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('An error occurred: $e')),
+          );
+          setState(() {
+            _isEditing = true; // Re-enable editing if there was an error
+          });
+        }
+      }
     }
   }
 
@@ -58,10 +147,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
         title: const Text('Profile'),
         backgroundColor: primaryColor,
         actions: [
-          IconButton(
-            icon: Icon(_isEditing ? Icons.close : Icons.edit),
-            onPressed: _toggleEdit,
-          ),
+          _isEditing
+              ? IconButton(
+                  icon: const Icon(Icons.save),
+                  onPressed: _saveProfile,
+                )
+              : IconButton(
+                  icon: const Icon(Icons.edit),
+                  onPressed: _toggleEdit,
+                ),
+          if (_isEditing)
+            IconButton(
+              icon: const Icon(Icons.cancel),
+              onPressed: _cancelEdit,
+            ),
         ],
       ),
       body: Container(
@@ -108,7 +207,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   TextFormField(
                     controller: _emailController,
                     decoration: const InputDecoration(labelText: 'Email'),
-                    enabled: false, // Email is not editable
+                    enabled: _isEditing, 
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter your email';
+                      }
+                      if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
+                        return 'Please enter a valid email';
+                      }
+                      return null;
+                    },
                   ),
                   const SizedBox(height: 16.0),
                   TextFormField(
@@ -126,22 +234,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     validator: (value) => value!.isEmpty ? 'Please enter your address' : null,
                   ),
                   const SizedBox(height: 32.0),
-                  if (_isEditing)
-                    SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        onPressed: _saveProfile,
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: primaryColor,
-                          foregroundColor: Colors.white,
-                          padding: const EdgeInsets.symmetric(vertical: 16.0),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8.0),
-                          ),
-                        ),
-                        child: const Text('Save', style: TextStyle(fontSize: 18.0)),
-                      ),
-                    ),
+                  
                 ],
               ),
             ),

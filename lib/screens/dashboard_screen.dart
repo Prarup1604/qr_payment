@@ -1,29 +1,42 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:qr_payment/screens/profile_screen.dart';
+import 'package:qr_payment/screens/transaction_details_screen.dart';
 
 class DashboardScreen extends StatefulWidget {
-  const DashboardScreen({super.key});
+  final int selectedIndex;
+  const DashboardScreen({super.key, this.selectedIndex = 0});
 
   @override
   State<DashboardScreen> createState() => _DashboardScreenState();
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
-  int _selectedIndex = 0;
+  late int _selectedIndex;
+  String? _imagePath;
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedIndex = widget.selectedIndex;
+  }
 
   void _onItemTapped(int index) {
+    if (_selectedIndex == index) return;
     setState(() {
       _selectedIndex = index;
     });
 
     switch (index) {
       case 0:
-        // Handle Home navigation
+        // Already on the dashboard, do nothing
         break;
       case 1:
-        // No navigation for My Payment as per user request
+        Navigator.pushReplacementNamed(context, '/qr_hub');
         break;
       case 2:
-        // Handle Transactions navigation
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const TransactionDetailsScreen()));
         break;
     }
   }
@@ -60,11 +73,25 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   // Handle notifications
                 },
               ),
-              IconButton(
-                icon: const Icon(Icons.account_circle),
-                onPressed: () {
-                  Navigator.pushNamed(context, '/profile');
+              GestureDetector(
+                onTap: () async {
+                  final result = await Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const ProfileScreen()),
+                  );
+                  if (result != null) {
+                    setState(() {
+                      _imagePath = result as String?;
+                    });
+                  }
                 },
+                child: CircleAvatar(
+                  radius: 20,
+                  backgroundImage: _imagePath != null ? FileImage(File(_imagePath!)) : null,
+                  child: _imagePath == null
+                      ? const Icon(Icons.account_circle, size: 40)
+                      : null,
+                ),
               ),
             ],
           ),
@@ -106,7 +133,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   // Row 1: Load Money
                   ElevatedButton(
                     onPressed: () {
-                      // Handle Load Money
+                      Navigator.pushNamed(context, '/load_money');
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.white,
@@ -165,27 +192,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       ],
                     ),
                   ),
-                  ElevatedButton(
-                    onPressed: () {
-                      // Handle Bank Transfer
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.white,
-                      foregroundColor: Colors.black,
-                      padding: const EdgeInsets.all(8),
-                      textStyle: const TextStyle(fontSize: 14),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                    ),
-                    child: const Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(Icons.account_balance, size: 40, color: Colors.green),
-                        SizedBox(height: 8),
-                        Text('Bank Transfer', textAlign: TextAlign.center),
-                      ],
-                    ),
-                  ),
-                  
                   ],
               ),
               const SizedBox(height: 20.0),
@@ -308,7 +314,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.white,
                       foregroundColor: Colors.black,
-                      padding: const EdgeInsets.all(8),
+                      padding: const EdgeInsets.symmetric(vertical: 8),
                       textStyle: const TextStyle(fontSize: 14),
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                     ),
@@ -318,6 +324,26 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         Icon(Icons.wifi, size: 40, color: Colors.green),
                         SizedBox(height: 8),
                         Text('Internet Bill', textAlign: TextAlign.center),
+                      ],
+                    ),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      // Handle Bank Transfer
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.white,
+                      foregroundColor: Colors.black,
+                      padding: const EdgeInsets.all(8),
+                      textStyle: const TextStyle(fontSize: 14),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                    ),
+                    child: const Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(Icons.account_balance, size: 40, color: Colors.green),
+                        SizedBox(height: 8),
+                        Text('Bank Transfer', textAlign: TextAlign.center),
                       ],
                     ),
                   ),
@@ -361,6 +387,66 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       ],
                     ),
                   ),
+                  ElevatedButton(
+                    onPressed: () {
+                      // Handle E-Learning
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.white,
+                      foregroundColor: Colors.black,
+                      padding: const EdgeInsets.all(8),
+                      textStyle: const TextStyle(fontSize: 14),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                    ),
+                    child: const Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(Icons.school, size: 40, color: Colors.green),
+                        SizedBox(height: 8),
+                        Text('E-Learning', textAlign: TextAlign.center),
+                      ],
+                    ),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      // Handle Credit Card
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.white,
+                      foregroundColor: Colors.black,
+                      padding: const EdgeInsets.all(8),
+                      textStyle: const TextStyle(fontSize: 14),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                    ),
+                    child: const Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(Icons.credit_card, size: 40, color: Colors.green),
+                        SizedBox(height: 8),
+                        Text('Credit Card', textAlign: TextAlign.center),
+                      ],
+                    ),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      // Handle Vacancy
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.white,
+                      foregroundColor: Colors.black,
+                      padding: const EdgeInsets.all(8),
+                      textStyle: const TextStyle(fontSize: 14),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                    ),
+                    child: const Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(Icons.work, size: 40, color: Colors.green),
+                        SizedBox(height: 8),
+                        Text('Vacancy', textAlign: TextAlign.center),
+                      ],
+                    ),
+                  ),
                 ],
               ),
               
@@ -377,14 +463,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.shifting,
+        iconSize: 30.0, // Increased icon size
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.payment),
-            label: 'My Payment',
+            icon: Icon(Icons.qr_code_scanner),
+            label: 'Scan and Pay',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.receipt_long),
@@ -393,7 +480,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         ],
         currentIndex: _selectedIndex,
         selectedItemColor: Theme.of(context).primaryColor,
-        unselectedItemColor: Colors.black,
+        unselectedItemColor: Colors.grey, // Changed unselected item color
         onTap: _onItemTapped,
       ),
     );

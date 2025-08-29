@@ -35,7 +35,7 @@ class WelcomeScreen extends StatelessWidget {
               const SizedBox(height: 50),
               ElevatedButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, '/login');
+                  Navigator.pushReplacementNamed(context, '/login');
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: primaryColor,
@@ -50,7 +50,7 @@ class WelcomeScreen extends StatelessWidget {
               const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, '/register');
+                  Navigator.pushReplacementNamed(context, '/register');
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.white,

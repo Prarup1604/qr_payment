@@ -50,7 +50,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
         if (mounted) {
           if (result.containsKey('token')) {
-            Navigator.pushReplacementNamed(context, '/dashboard');
+            Navigator.pushNamedAndRemoveUntil(context, '/dashboard', (route) => false);
           } else {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text(result['message'] ?? 'Login failed.')),

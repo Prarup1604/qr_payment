@@ -113,7 +113,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
         if (mounted) {
           if (result.containsKey('token')) {
-            Navigator.pushReplacementNamed(context, '/dashboard');
+            Navigator.pushReplacementNamed(context, '/login');
           } else {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text(result['message'] ?? 'Registration failed.')),
